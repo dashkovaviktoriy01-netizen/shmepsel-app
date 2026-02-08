@@ -10,20 +10,36 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: radial-gradient(circle at top, #1f1f35, #0f0f1f 70%);
+  background: #0e0e1a;
   color: white;
   overflow: hidden;
+}
+
+/* Анимированный фон */
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 30%, #7a5cff33, transparent 40%),
+              radial-gradient(circle at 70% 60%, #b388ff22, transparent 40%);
+  animation: moveBg 12s infinite alternate ease-in-out;
+  z-index: -1;
+}
+
+@keyframes moveBg {
+  from { transform: translate(0,0); }
+  to { transform: translate(-50px,-80px); }
 }
 
 .screen {
   position: absolute;
   width: 100%;
-  height: calc(100vh - 70px);
-  top: 0;
+  height: calc(100vh - 80px);
   left: 100%;
-  padding: 20px;
+  padding: 25px;
   box-sizing: border-box;
-  transition: 0.4s ease;
+  transition: 0.5s cubic-bezier(.4,0,.2,1);
 }
 
 .screen.active {
@@ -31,50 +47,69 @@ body {
 }
 
 h1 {
-  margin-top: 10px;
-  font-size: 24px;
+  font-size: 26px;
+  margin-bottom: 20px;
+  text-shadow: 0 0 20px #7a5cff88;
 }
 
 .card {
-  background: rgba(255,255,255,0.05);
-  border-radius: 20px;
-  padding: 18px;
-  margin-top: 20px;
-  backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.06);
+  border-radius: 25px;
+  padding: 20px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 25px rgba(122,92,255,0.15);
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .button {
-  margin-top: 15px;
-  padding: 12px;
-  border-radius: 14px;
+  width: 100%;
+  padding: 14px;
+  border-radius: 18px;
   border: none;
   background: linear-gradient(45deg,#7a5cff,#b388ff);
   color: white;
-  font-size: 14px;
-  width: 100%;
+  font-size: 15px;
+  margin-top: 10px;
+  transition: 0.2s;
+}
+
+.button:active {
+  transform: scale(0.96);
+  box-shadow: 0 0 20px #7a5cff;
 }
 
 .nav {
   position: fixed;
-  bottom: 0;
-  width: 100%;
-  height: 70px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  height: 65px;
+  border-radius: 25px;
   background: rgba(20,20,35,0.9);
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 25px rgba(122,92,255,0.2);
 }
 
 .nav button {
   background: none;
   border: none;
   color: #aaa;
-  font-size: 12px;
+  font-size: 18px;
+  transition: 0.2s;
 }
 
 .nav button.active {
   color: #b388ff;
+  transform: scale(1.2);
 }
 
 .xp-bar {
@@ -88,14 +123,13 @@ h1 {
   height: 8px;
   width: 40%;
   background: linear-gradient(90deg,#7a5cff,#b388ff);
-  transition: 0.3s;
+  transition: 0.4s;
 }
 </style>
 </head>
 
 <body>
 
-<!-- Главная -->
 <div class="screen active" id="home">
   <h1>SHMEPSEL.EXE 🖤</h1>
   <div class="card">
@@ -106,42 +140,35 @@ h1 {
   </div>
 
   <div class="card">
-    <p>Мем дня:</p>
-    <p>“Если грустно — значит пора получить +10 XP.”</p>
-    <button class="button" onclick="addXP()">Получить +10 XP</button>
+    <p>Мем дня</p>
+    <p>“Шмепсель — легенда этой вселенной.”</p>
+    <button class="button" onclick="addXP()">+10 XP</button>
   </div>
 </div>
 
-<!-- Игры -->
 <div class="screen" id="games">
   <h1>🎮 Игры</h1>
-  <div class="card">
-    <p>Мини-игра скоро появится...</p>
-  </div>
+  <div class="card">Скоро здесь будет магия...</div>
 </div>
 
-<!-- Настроение -->
 <div class="screen" id="mood">
   <h1>💜 Настроение</h1>
   <div class="card">
-    <p>Как ты сегодня?</p>
     <button class="button">🙂 Хорошо</button>
     <button class="button">😐 Нормально</button>
     <button class="button">😔 Грустно</button>
   </div>
 </div>
 
-<!-- Профиль -->
 <div class="screen" id="profile">
   <h1>👤 Профиль</h1>
   <div class="card">
-    <p>Имя: Шмепсель</p>
-    <p>Шмепсы: 120</p>
-    <p>Дней подряд: 3 🔥</p>
+    Шмепсель<br>
+    Шмепсы: 120<br>
+    Серия: 3 дня 🔥
   </div>
 </div>
 
-<!-- Навигация -->
 <div class="nav">
   <button onclick="openTab('home', this)" class="active">🏠</button>
   <button onclick="openTab('games', this)">🎮</button>
